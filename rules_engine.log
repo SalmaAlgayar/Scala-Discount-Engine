@@ -1,0 +1,75 @@
+2026-04-14 14:48:29.109 INFO  Application started...
+2026-04-14 14:48:29.114 INFO  Reading file from: C:\Users\Salma\Desktop\OrdersDiscount\src\main\resources\TRX1000.csv
+2026-04-14 14:48:29.307 INFO  Starting batch insert for 1000 orders...
+2026-04-14 14:48:30.145 INFO  Successfully inserted 1000 records.
+2026-04-14 14:48:30.147 INFO  Process complete.
+2026-04-14 14:51:28.162 INFO  Application started...
+2026-04-14 14:51:28.167 INFO  Reading file from: C:\Users\Salma\Desktop\OrdersDiscount\src\main\resources\TRX1000.csv
+2026-04-14 14:51:28.380 INFO  Starting batch insert for 1000 orders...
+2026-04-14 14:51:28.939 ERROR CRITICAL FAILURE: FATAL: database "ordersd" does not exist
+2026-04-14 15:07:21.838 INFO  --- Processing Started ---
+2026-04-14 15:07:21.870 INFO  File read. Found 1000 potential records.
+2026-04-14 15:07:23.220 INFO  Success! 1000 records inserted.
+2026-04-15 13:00:24.103 INFO  --- Processing Started ---
+2026-04-15 13:00:24.150 INFO  File read. Found 1000 potential records.
+2026-04-15 13:00:25.579 INFO  Success! 1000 records inserted.
+2026-04-15 13:25:16.747 INFO  --- Processing Started ---
+2026-04-15 13:25:16.782 INFO  File read. Found 1001 potential records.
+2026-04-15 13:25:17.821 INFO  Success! 1000 records inserted.
+2026-04-15 13:29:36.025 INFO  --- Processing Started ---
+2026-04-15 13:29:36.071 INFO  File read. Found 1001 potential records.
+2026-04-15 13:29:37.333 INFO  Success! 1000 records inserted.
+2026-04-15 13:34:51.026 INFO  --- Processing Started ---
+2026-04-15 13:34:51.063 INFO  File read. Found 1001 potential records.
+2026-04-15 13:34:52.116 INFO  Success! 1000 records inserted.
+2026-04-15 13:35:24.830 INFO  --- Processing Started ---
+2026-04-15 13:35:24.861 INFO  File read. Found 1001 potential records.
+2026-04-15 13:35:25.562 ERROR Database Error: FATAL: database "ordersd" does not exist
+2026-04-15 13:49:53.580 INFO  --- Processing Started ---
+2026-04-15 13:49:53.746 INFO  File read. Found 1000 valid records.
+2026-04-15 13:49:54.575 INFO  Success! 1000 records inserted.
+2026-04-15 14:10:05.867 INFO  --- Processing Started ---
+2026-04-15 14:10:06.077 INFO  File read. Found 1000 valid records.
+2026-04-15 14:10:07.267 INFO  Success! 1000 records inserted.
+2026-04-15 14:10:46.267 INFO  --- Processing Started ---
+2026-04-15 14:10:46.468 INFO  File read. Found 1000 valid records.
+2026-04-15 14:10:47.359 INFO  Success! 1000 records inserted.
+2026-04-15 14:16:28.958 INFO  --- Processing Started ---
+2026-04-15 14:16:29.155 INFO  File read. Found 1000 valid records.
+2026-04-15 14:16:30.081 INFO  Success! 1000 records inserted.
+2026-04-15 14:23:06.887 INFO  --- Processing Started ---
+2026-04-15 14:23:06.950 INFO  File read. Found 1001 valid records.
+2026-04-15 14:23:07.265 INFO  File read. Found 1000 valid records.
+2026-04-15 14:23:08.219 INFO  Success! 1000 records inserted.
+2026-04-15 14:24:59.817 INFO  --- Processing Started ---
+2026-04-15 14:24:59.856 INFO  File read. Found 1001 records.
+2026-04-15 14:25:00.013 INFO  Orders processed. Resulted in 1000 valid records.
+2026-04-15 14:25:00.610 ERROR Application Error: FATAL: database "ordersd" does not exist
+2026-04-15 14:41:37.358 INFO  --- Processing Started ---
+2026-04-15 14:41:37.393 INFO  File read. Found 1001 records.
+2026-04-15 14:41:37.581 INFO  Orders processed. Resulted in 1000 valid records.
+2026-04-15 14:41:38.557 INFO  Success! 1000 records inserted.
+2026-04-15 14:50:11.675 INFO  --- Processing Started ---
+2026-04-15 14:50:11.708 INFO  File read. Found 1001 records.
+2026-04-15 14:50:11.854 INFO  Orders processed. Resulted in 1000 valid records.
+2026-04-15 14:50:12.749 INFO  Success! 1000 records inserted.
+2026-04-15 14:58:13.859 INFO  --- Processing Started ---
+2026-04-15 14:58:13.900 INFO  File read. Found 1001 records.
+2026-04-15 14:58:14.067 INFO  Orders processed. Resulted in 1000 valid records.
+2026-04-15 14:58:15.006 INFO  Success! 1000 records inserted.
+2026-04-15 15:05:12.212 INFO  --- Processing Started ---
+2026-04-15 15:05:12.241 INFO  File read. Found 1001 records.
+2026-04-15 15:05:12.373 INFO  Orders processed. Resulted in 1000 valid records.
+2026-04-15 15:05:13.290 INFO  Success! 1000 records inserted.
+2026-04-20 08:43:29.292 INFO  --- Processing Started ---
+2026-04-20 08:43:29.336 INFO  File read. Found 1001 records.
+2026-04-20 08:43:29.573 INFO  Orders processed. Resulted in 1000 valid records.
+2026-04-20 08:43:31.213 INFO  Success! 1000 records inserted.
+2026-04-20 09:09:11.278 INFO  --- Processing Started ---
+2026-04-20 09:09:11.307 INFO  File read. Found 1001 records.
+2026-04-20 09:09:11.452 INFO  Orders processed. Resulted in 1000 valid records.
+2026-04-20 09:09:12.388 INFO  Success! 1000 records inserted.
+2026-04-20 09:15:35.899 INFO  --- Processing Started ---
+2026-04-20 09:15:35.930 INFO  File read. Found 1001 records.
+2026-04-20 09:15:36.088 INFO  Orders processed. Resulted in 1000 valid records.
+2026-04-20 09:15:36.961 INFO  Success! 1000 records inserted.
