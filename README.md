@@ -4,7 +4,7 @@
 
 ---
 
-## 😺The Problem (a.k.a. Why I'm Even Doing This)
+## 🐱‍💻The Problem (a.k.a. Why I'm Even Doing This)
 My Scala instructor at ITI just dropped a massive CSV scroll on our desks. It’s packed with about a thousand rows of people buying cheese, wine, and other... "interesting" life choices.
 
 The Mission: He told us to calculate discounts based on four totally random rules (Is it about to expire? Is it cheese? Was it bought on March 23rd? Did they buy a literal truckload?) and then shove all that data into a database.
