@@ -12,4 +12,3 @@ CREATE TABLE orders (
                         channel VARCHAR(50),
                         payment_method VARCHAR(50)
 );
-         );
