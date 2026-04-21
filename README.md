@@ -6,7 +6,7 @@
 
 ## 🧾 The Story So Far
 
-### Chapter 1: The 1,000‑Order Prototype 😽
+### Chapter 1: The 1,000‑Order Prototype 🌞
 
 Our Scala instructor dropped a CSV file of **1,000 orders** on our desks and said: *"Calculate discounts based on four business rules, and shove it all into a database. Oh, and no side-effects, no mutable state, no exceptions."*
 
@@ -18,7 +18,7 @@ I built a **pure functional discount engine**:
 
 It worked beautifully through the `OrdersMain` object. Tests were fast. The code was easy to reason about. Life was good.
 
-### Chapter 2: The 10,000,000‑Order Wake‑Up Call 🐱‍👓
+### Chapter 2: The 10,000,000‑Order Wake‑Up Call 🦖
 
 Then came the email: *"Great job. Tomorrow you'll receive **10 million orders per batch**. Please scale."*
 
