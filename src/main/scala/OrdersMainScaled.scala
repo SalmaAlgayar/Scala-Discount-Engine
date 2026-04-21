@@ -4,10 +4,11 @@ import doobie.implicits._
 import doobie.postgres.implicits._
 import doobie.util.update.Update
 import fs2.{Stream, text}
-import fs2.io.file.{Files, Path}
+import fs2.io.file.{Files}
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 import models._
+import java.nio.file.Paths
 
 /**
  * Main entry point for the Orders Discount Engine – scaled for 100M+ records.
@@ -30,7 +31,7 @@ object OrdersMainScaled extends IOApp {
    *
    * @return A transactor that can run `ConnectionIO` programs in `IO`
    */
-  def createTransactor: Transactor[IO] = Transactor.fromDriverManager[IO]("org.postgresql.Driver", "jdbc:postgresql:ordersdb", "docker", "docker", None)
+  def createTransactor: Transactor[IO] = Transactor.fromDriverManager[IO]("org.postgresql.Driver", "jdbc:postgresql:ordersdb?reWriteBatchedInserts=true", "docker", "docker", None)
 
   /**
    * Reads a CSV file as a stream of lines, skipping the header and blank lines.
@@ -43,7 +44,7 @@ object OrdersMainScaled extends IOApp {
    * @return A `Stream[IO, String]` that emits one line at a time
    */
   def readLinesStream(path: String): Stream[IO, String] =
-    Files[IO].readAll(Path(path))                // Stream of bytes
+    Files[IO].readAll(Paths.get(path), chunkSize = 64 * 1024)                // Stream of bytes
       .through(text.utf8.decode)                 // Bytes → String chunks
       .through(text.lines)                       // String chunks → individual lines
       .filter(_.trim.nonEmpty)                   // Drop completely empty lines
@@ -125,7 +126,7 @@ object OrdersMainScaled extends IOApp {
    * top‑level error handler. All complex logic lives in the helpers above.
    */
   override def run(args: List[String]): IO[ExitCode] = {
-    pipeline(createTransactor, "src/main/resources/TRX10M.csv", 10000, 8)
+    pipeline(createTransactor, "src/main/resources/TRX10M.csv", 20000, 8)
       .as(ExitCode.Success)
       .handleErrorWith(err => Logger[IO].error(s"Fatal error: ${err.getMessage}").as(ExitCode.Error))
   }
