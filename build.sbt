@@ -4,19 +4,22 @@ ThisBuild / scalaVersion := "2.13.13"
 lazy val root = (project in file("."))
   .settings(
     name := "OrdersDiscount",
-    // Add this to make sure macros/newtypes work correctly in 2.13
-    scalacOptions ++= Seq("-Ymacro-annotations")
+    scalacOptions ++= Seq("-Ymacro-annotations"),
+    allowUnsafeScalaLibUpgrade := true
   )
 
 val DoobieVersion = "1.0.0-RC12"
 
 libraryDependencies ++= Seq(
   // Core Libraries
-  "org.typelevel" %% "cats-effect"    % "3.5.4", // Added explicitly
+  "org.typelevel" %% "cats-effect"    % "3.5.4",
   "org.tpolecat"  %% "doobie-core"     % DoobieVersion,
   "org.tpolecat"  %% "doobie-postgres" % DoobieVersion,
   "org.tpolecat"  %% "doobie-hikari"   % DoobieVersion,
   "org.postgresql" % "postgresql"      % "42.7.3",
+
+  // Streaming (added for 100M order processing)
+  "co.fs2"        %% "fs2-io"          % "3.9.4",
 
   // Utilities & Logging
   "io.estatico"   %% "newtype"         % "0.4.4",
