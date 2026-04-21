@@ -1,6 +1,7 @@
 <configuration>
     <property name="LOG_FILE" value="rules_engine.log" />
 
+    <!-- File appender (synchronous – fine for batch processing) -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_FILE}</file>
         <encoder>
@@ -8,14 +9,22 @@
         </encoder>
     </appender>
 
+    <!-- Console appender (will be wrapped by async) -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %msg%n</pattern>
         </encoder>
     </appender>
 
+    <!-- Async wrapper for console logging – never blocks the application -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT" />
+        <queueSize>1024</queueSize>
+        <neverBlock>true</neverBlock>
+    </appender>
+
     <root level="INFO">
         <appender-ref ref="FILE" />
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ASYNC" />   <!-- use async for console output -->
     </root>
 </configuration>
