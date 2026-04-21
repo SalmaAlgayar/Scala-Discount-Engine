@@ -117,9 +117,7 @@ lines
 ### 3. Insert into Database Concurrently
 
 ```scala
-.parEvalMapUnordered(dbParallelism) { batch =>
-  saveBatchToDb(batch, xa)
-}
+ .parEvalMapUnordered(writeParallelism)(batch => saveBatchToDb(batch, xa))
 ```
 
 ### 4. The Top-Level Pipeline
@@ -148,14 +146,41 @@ Side effects are wrapped in `IO`:
 ```scala
 Transactor.fromDriverManager[IO](
   "org.postgresql.Driver",
-  "jdbc:postgresql:ordersdb",
+  "jdbc:postgresql:ordersdb?reWriteBatchedInserts=true",
   "docker",
   "docker"
 )
 ```
 
+We use reWriteBatchedInserts=true to let PostgreSQL combine multiple INSERT rows into a single statement, reducing round trips.
+
 ---
 
+## 🔮 Future Enhancement: HikariCP Connection Pooling
+Currently, each batch opens and closes its own database connection via DriverManager. For 10M orders, this is acceptable because we limit concurrency and batch sizes. However, as the system grows (e.g., 100M+ orders, higher concurrency), connection overhead may become noticeable.
+
+Planned upgrade: Replace the plain `Transactor.fromDriverManager` with a HikariCP-backed `HikariTransactor`:
+```scala
+
+import doobie.hikari.HikariTransactor
+
+def createTransactor: Resource[IO, HikariTransactor[IO]] =
+  HikariTransactor.newHikariTransactor[IO](
+    "org.postgresql.Driver",
+    "jdbc:postgresql:ordersdb?reWriteBatchedInserts=true",
+    "docker",
+    "docker",
+    poolSize = 16
+  )
+```
+**Benefits**:
+
+- Connection reuse → lower latency per batch.
+- Better resource management under high concurrency.
+- Built‑in connection validation and leak detection.
+
+This change is purely infrastructural—the pure core and streaming pipeline remain untouched.
+---
 
 ## 🚀 Running the Beast
 
@@ -163,6 +188,8 @@ Transactor.fromDriverManager[IO](
 2. Create database `ordersdb` and the `ORDERS` table (schema given).
 3. Drop your massive CSV in `src/main/resources/TRX10M.csv`.
 4. `sbt run
+
+You'll see logs for each batch committed. If a batch fails, the error is logged and the stream continues.
 
 ## 📚 Tech Stack
 
