@@ -40,16 +40,20 @@ case class OrderWithDiscount(
  */
 object OrderHelpers {
 
+  // Pre‑compile the CSV split regex for better performance (avoids re‑compilation per line).
+  val csvSplitter = ",".r.pattern
+
   /**
    * Safely converts a single CSV line into an `Order` domain object.
-   * Returns `Some(order)` on success, `None` on any parsing failure.
    *
-   * This function is referentially transparent – calling it multiple times
-   * with the same input always yields the same output.
+   * Returns `Some(order)` on success, `None` on any parsing failure (malformed date,
+   * missing column, non‑numeric quantity, etc.). No exceptions escape.
+   *
+   * This function is pure – calling it with the same line always yields the same `Option`.
    */
   def parseOrderSafe(line: String): Option[Order] = {
     Try {
-      val cols = line.split(",").map(_.trim)
+      val cols = csvSplitter.split(line).map(_.trim)
       Order(
         timestamp      = OffsetDateTime.parse(cols(0)),
         product_name   = cols(1),
@@ -97,8 +101,19 @@ object OrderHelpers {
   def isDQualified(order: Order): Boolean = order.quantity > 5
 
   // --- Discount Calculation Rules (Pure Float Functions) -------------------
-  // Each rule computes the discount percentage *if* the corresponding
-  // qualifier passes.
+  // Each rule computes the discount percentage if the corresponding qualifier passes.
+
+  /**
+   * Rule E: Order was placed through the App channel.
+   * (New requirement: encourage App usage)
+   */
+  def isEQualified(order: Order): Boolean = order.channel.trim.equalsIgnoreCase("app")
+
+  /**
+   * Rule F: Payment was made using a Visa card.
+   * (New requirement: promote paperless payments)
+   */
+  def isFQualified(order: Order): Boolean = order.payment_method.toLowerCase.contains("visa")
 
   /**
    * Rule A calculation: 30% minus the number of days until expiry.
@@ -130,6 +145,20 @@ object OrderHelpers {
     else 10f
 
   /**
+   * Rule E calculation: Special tiered discount based on quantity rounded up to nearest 5.
+   * Example: quantity 1-5 → 5%, 6-10 → 10%, 11-15 → 15%, etc.
+   */
+  def calcE(order: Order): Float = {
+    val tier = (order.quantity + 4) / 5
+    tier * 5f
+  }
+
+  /**
+   * Rule F calculation: Flat 5% discount for Visa transactions.
+   */
+  def calcF(order: Order): Float = 5f
+
+  /**
    * The complete rule set, expressed as a list of (qualifier, calculator) pairs.
    * This list can be treated as pure data – it can be filtered, mapped,
    * or replaced entirely for testing.
@@ -138,7 +167,9 @@ object OrderHelpers {
     (isAQualified, calcA),
     (isBQualified, calcB),
     (isCQualified, calcC),
-    (isDQualified, calcD)
+    (isDQualified, calcD),
+    (isEQualified, calcE),
+    (isFQualified, calcF)
   )
 
   /**
